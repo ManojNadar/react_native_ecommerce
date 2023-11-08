@@ -15,6 +15,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { MyContext } from "../Context/EcomContext";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const width = Dimensions.get("window");
 const height = Dimensions.get("window");
@@ -26,7 +28,6 @@ const Home = ({ navigation }) => {
   const [error, setError] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
   const listRef = useRef();
-  const [sideBar, setSideBar] = useState(false);
   const { state, logout } = useContext(MyContext);
 
   useEffect(() => {
@@ -62,14 +63,6 @@ const Home = ({ navigation }) => {
       <StatusBar color="white" />
       {/* Side bar */}
 
-      {sideBar ? (
-        <View style={styles.sidebarStyle}>
-          <View style={{ position: "absolute", right: 10, top: 12 }}>
-            <Icon name="close" size={35} onPress={() => setSideBar(false)} />
-          </View>
-        </View>
-      ) : null}
-
       {/* Top Home Design */}
       <View style={styles.topFilter}>
         <TextInput
@@ -81,7 +74,15 @@ const Home = ({ navigation }) => {
           <Icon name="search" size={22} />
         </View>
 
-        <Icon name="bars" size={30} onPress={() => setSideBar(true)} />
+        <MaterialIcons
+          onPress={() => navigation.navigate("cart")}
+          name="shopping-cart"
+          size={30}
+        />
+
+        <View style={styles.micIcon}>
+          <Icon name="microphone" size={25} />
+        </View>
       </View>
 
       {/* Top Banner */}
@@ -89,7 +90,7 @@ const Home = ({ navigation }) => {
       <View style={styles.imageBannerContainer}>
         <Image
           source={{
-            uri: "https://img.freepik.com/premium-vector/online-shopping-banner_82574-3393.jpg",
+            uri: "https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX30061762.jpg",
           }}
           style={styles.imageBanner}
           resizeMode="contain"
@@ -103,7 +104,11 @@ const Home = ({ navigation }) => {
           style={styles.filterBtn}
           onPress={() => setFilterModal(!filterModal)}
         >
-          <Text>Filter</Text>
+          <Text style={{ fontSize: 20, fontWeight: "bold", letterSpacing: 2 }}>
+            Filter
+          </Text>
+
+          <Ionicons name="filter" size={30} style={{ paddingLeft: 15 }} />
         </Pressable>
 
         {filterModal ? (
@@ -253,12 +258,16 @@ const styles = StyleSheet.create({
     borderColor: "black",
     width: "80%",
     borderRadius: 10,
-    paddingLeft: 10,
+    paddingLeft: 40,
     paddingVertical: 5,
   },
   searchIcon: {
     position: "absolute",
-    right: 72,
+    left: 20,
+  },
+  micIcon: {
+    position: "absolute",
+    right: 80,
   },
   imageBannerContainer: {
     width: "100%",
@@ -269,17 +278,18 @@ const styles = StyleSheet.create({
     height: 220,
   },
   filterBtn: {
-    width: "50%",
+    width: "100%",
     backgroundColor: "skyblue",
-    height: 30,
+    height: 40,
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: "row",
   },
   filteringSection: {
-    width: "50%",
+    width: "100%",
     backgroundColor: "whitesmoke",
     position: "absolute",
-    top: 30,
+    top: 40,
     zIndex: 10,
   },
   filterText: {
@@ -287,8 +297,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.2,
     borderRightColor: "grey",
     borderRightWidth: 0.5,
-    padding: 5,
+    paddingVertical: 8,
     textAlign: "center",
+    fontSize: 20,
   },
   fetchedImg: {
     height: 320,
@@ -311,14 +322,5 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     textAlign: "center",
-  },
-
-  sidebarStyle: {
-    position: "absolute",
-    right: 0,
-    zIndex: 999,
-    width: 220,
-    height: 800,
-    backgroundColor: "skyblue",
   },
 });

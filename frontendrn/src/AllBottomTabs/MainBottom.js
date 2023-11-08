@@ -1,26 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "./Home";
 import Profile from "./Profile";
 import Contact from "./Contact";
-import Orders from "./Orders";
+import Menu from "./Menu";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Bars from "react-native-vector-icons/FontAwesome";
+import { MyContext } from "../Context/EcomContext";
 
 const Tab = createBottomTabNavigator();
 
 const MainBottom = () => {
+  const { state } = useContext(MyContext);
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
+        tabBarStyle: { height: 55 },
       }}
     >
       <Tab.Screen
         name="home"
         component={Home}
         options={{
-          tabBarStyle: { height: 50 },
           tabBarActiveTintColor: "skyblue",
+          tabBarLabelStyle: {
+            fontSize: 15,
+            fontWeight: "bold",
+          },
           tabBarIcon: ({ size, focused }) => {
             return (
               <Ionicons
@@ -37,6 +44,9 @@ const MainBottom = () => {
         component={Contact}
         options={{
           tabBarActiveTintColor: "skyblue",
+          tabBarLabelStyle: {
+            fontSize: 15,
+          },
           tabBarIcon: ({ size, focused }) => {
             return (
               <Ionicons
@@ -48,31 +58,41 @@ const MainBottom = () => {
           },
         }}
       />
+
+      {state?.currentuser && (
+        <Tab.Screen
+          name="profile"
+          component={Profile}
+          options={{
+            tabBarActiveTintColor: "skyblue",
+            tabBarLabelStyle: {
+              fontSize: 15,
+            },
+            tabBarIcon: ({ size, focused }) => {
+              return (
+                <Ionicons
+                  name="person"
+                  size={size}
+                  color={focused ? "skyblue" : "black"}
+                />
+              );
+            },
+          }}
+        />
+      )}
+
       <Tab.Screen
-        name="profile"
-        component={Profile}
+        name="menu"
+        component={Menu}
         options={{
           tabBarActiveTintColor: "skyblue",
-          tabBarIcon: ({ size, focused }) => {
-            return (
-              <Ionicons
-                name="person"
-                size={size}
-                color={focused ? "skyblue" : "black"}
-              />
-            );
+          tabBarLabelStyle: {
+            fontSize: 15,
           },
-        }}
-      />
-      <Tab.Screen
-        name="orders"
-        component={Orders}
-        options={{
-          tabBarActiveTintColor: "skyblue",
           tabBarIcon: ({ size, focused }) => {
             return (
-              <Ionicons
-                name="folder-open-sharp"
+              <Bars
+                name="bars"
                 size={size}
                 color={focused ? "skyblue" : "black"}
               />

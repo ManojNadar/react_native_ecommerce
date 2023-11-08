@@ -11,6 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import api from "../ApiConfig/Api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const width = Dimensions.get("window");
 const height = Dimensions.get("window");
@@ -71,7 +72,10 @@ const Cart = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.cartHeader}>Cart</Text>
+      <View style={styles.cartHeader}>
+        <Icon name="shopping-cart" size={30} color="black" />
+        <Text style={styles.cartHeaderText}>My Cart</Text>
+      </View>
 
       {cart.length ? (
         <View>
@@ -114,41 +118,48 @@ const Cart = ({ navigation }) => {
                   backgroundColor: "skyblue",
                 }}
               >
-                Total Rs.{total}
+                Total $.{total}
               </Text>
+              <View>
+                <Button title="Place Order" color={"orange"} />
+              </View>
+              <View style={styles.cartBtn}>
+                <Button
+                  onPress={() => navigation.navigate("mainbottom")}
+                  title="Continue Shopping"
+                  color={"green"}
+                />
+              </View>
             </View>
           ) : (
-            <Text>Your Cart is Empty</Text>
-          )}
-          {cart.length ? (
             <View>
-              <Button title="Place Order" color={"orange"} />
-            </View>
-          ) : (
-            <Text>Your Cart is Empty</Text>
-          )}
-
-          {cart.length ? (
-            <View
-              style={{
-                marginTop: 20,
-                width: "50%",
-                marginLeft: "auto",
-                marginRight: "auto",
-              }}
-            >
-              <Button
-                onPress={() => navigation.navigate("mainbottom")}
-                title="Continu Shopping"
-                color={"green"}
+              <Image
+                source={{
+                  uri: "https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png",
+                }}
+                width={400}
+                height={500}
+                resizeMode="contain"
               />
             </View>
-          ) : (
-            <Text>Your Cart is Empty</Text>
           )}
         </View>
       ) : (
-        <Text>Your Cart is Empty</Text>
+        <View>
+          <Image
+            source={{
+              uri: "https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png",
+            }}
+            width={400}
+            height={500}
+            resizeMode="contain"
+          />
+          <Button
+            onPress={() => navigation.navigate("mainbottom")}
+            title="Continue Shopping"
+            color={"green"}
+          />
+        </View>
       )}
     </View>
   );
@@ -165,6 +176,9 @@ const styles = StyleSheet.create({
   },
 
   cartHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     textAlign: "center",
     fontSize: 30,
     fontWeight: "bold",
@@ -172,12 +186,18 @@ const styles = StyleSheet.create({
     height: 70,
     paddingTop: 10,
   },
+  cartHeaderText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    paddingLeft: 10,
+  },
   cartProd: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     width: "100%",
-    borderWidth: 0.2,
+    borderBottomWidth: 0.8,
+    paddingBottom: 8,
     marginTop: 12,
   },
   removebtn: {
@@ -186,5 +206,11 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 5,
     borderRadius: 10,
+  },
+  cartBtn: {
+    marginTop: 20,
+    width: "50%",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 });

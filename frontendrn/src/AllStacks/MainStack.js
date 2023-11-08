@@ -1,5 +1,4 @@
-import { View, Text } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Login from "./Login";
@@ -15,9 +14,22 @@ const MainStack = () => {
   return (
     <EcomContext>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="register" component={Register} />
-          <Stack.Screen name="login" component={Login} />
+        <Stack.Navigator initialRouteName="mainbottom">
+          <Stack.Screen
+            name="register"
+            component={Register}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+          <Stack.Screen
+            name="login"
+            component={Login}
+            options={{
+              headerShown: false,
+            }}
+          />
           <Stack.Screen
             name="singleproduct"
             component={SingleProduct}

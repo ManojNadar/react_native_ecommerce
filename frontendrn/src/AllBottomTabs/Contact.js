@@ -11,7 +11,7 @@ import {
 const Contact = () => {
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 24 }}>Contact Us</Text>
+      <Text style={{ fontSize: 26, fontWeight: "bold" }}>Contact Us</Text>
       <ScrollView style={styles.form}>
         <Text style={styles.label}>Name</Text>
         <TextInput style={styles.input} placeholder="Enter your name" />
@@ -36,7 +36,9 @@ const Contact = () => {
           numberOfLines={5}
         />
 
-        <Button title="Send" style={styles.button} />
+        <View style={{ marginTop: 15 }}>
+          <Button title="Send" style={styles.button} />
+        </View>
       </ScrollView>
     </View>
   );
@@ -51,7 +53,6 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "skyblue",
   },
   form: {
     marginBottom: 20,

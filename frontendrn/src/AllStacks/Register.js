@@ -10,8 +10,6 @@ const Register = ({ navigation }) => {
     password: "",
   });
 
-  // console.log(user);
-
   const { state } = useContext(MyContext);
   useEffect(() => {
     if (state?.currentuser) {
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgb(255, 213, 128)",
+    backgroundColor: "skyblue",
   },
   regForm: {
     width: 320,

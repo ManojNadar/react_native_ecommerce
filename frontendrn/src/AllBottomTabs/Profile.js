@@ -1,20 +1,32 @@
-import React from "react";
-import { StyleSheet, View, Text, Image, Button } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, View, Text, Image, Button, Pressable } from "react-native";
+import { MyContext } from "../Context/EcomContext";
 
 const Profile = () => {
+  const { state } = useContext(MyContext);
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: "https://avatars.githubusercontent.com/u/44746563?v=4" }}
+        source={{
+          uri: "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png",
+        }}
         style={styles.profileImage}
       />
 
       <View style={styles.profileInfo}>
         <Text style={styles.profileLabel}>Name:</Text>
-        <Text style={styles.profileValue}>Bard</Text>
+        <Text style={styles.profileValue}>
+          {state?.currentuser
+            ? state?.currentuser?.name.toUpperCase()
+            : "No User"}
+        </Text>
 
         <Text style={styles.profileLabel}>Email:</Text>
-        <Text style={styles.profileValue}>bard@google.com</Text>
+        <Text style={styles.profileValue}>
+          {state?.currentuser
+            ? state?.currentuser?.email.toUpperCase()
+            : "No Email"}
+        </Text>
       </View>
 
       <Button title="Edit Profile" style={styles.editButton} />
@@ -29,7 +41,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     padding: 20,
-    backgroundColor: "skyblue",
   },
   profileImage: {
     width: 100,
@@ -39,6 +50,7 @@ const styles = StyleSheet.create({
   },
   profileInfo: {
     marginBottom: 20,
+    marginLeft: 10,
   },
   profileLabel: {
     fontSize: 16,
