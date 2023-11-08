@@ -35,6 +35,7 @@ const WishList = ({ navigation }) => {
 
       <View style={styles.menuContainer}>
         <Text style={styles.allMenus}>My Account</Text>
+        <Text style={styles.allMenus}>Favourites</Text>
         <Text style={styles.allMenus}>Settings</Text>
         <Text style={styles.allMenus}>payment Methods</Text>
         <Text style={styles.allMenus}>Your Orders</Text>

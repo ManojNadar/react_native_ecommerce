@@ -44,7 +44,7 @@ const EcomContext = ({ children }) => {
     async function getCurrentUser() {
       try {
         const token = await AsyncStorage.getItem("shoptoken");
-        console.log(token);
+        // console.log(token);
         const response = await api.post("/currentuser", { token });
         if (response.data.success) {
           console.log(response?.data?.currentuser, "currentuser");

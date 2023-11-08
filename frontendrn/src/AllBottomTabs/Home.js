@@ -11,8 +11,7 @@ import {
   Dimensions,
   StatusBar,
 } from "react-native";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { MyContext } from "../Context/EcomContext";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -28,7 +27,6 @@ const Home = ({ navigation }) => {
   const [error, setError] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
   const listRef = useRef();
-  const { state, logout } = useContext(MyContext);
 
   useEffect(() => {
     setLoading(true);

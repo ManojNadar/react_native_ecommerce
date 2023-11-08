@@ -199,8 +199,8 @@ export const getCartProducts = async (req, res) => {
     throw new Error("User not Found");
   } catch (error) {
     return res.status(500).json({
-      status: "error",
-      message: "Catch block Error",
+      success: false,
+      message: error.message,
     });
   }
 };

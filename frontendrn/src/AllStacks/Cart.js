@@ -8,10 +8,11 @@ import {
   Image,
   Button,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import api from "../ApiConfig/Api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { MyContext } from "../Context/EcomContext";
 
 const width = Dimensions.get("window");
 const height = Dimensions.get("window");
@@ -19,6 +20,8 @@ const height = Dimensions.get("window");
 const Cart = ({ navigation }) => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+
+  const { state } = useContext(MyContext);
 
   // console.log(total);
   // console.log(cart);
@@ -70,6 +73,7 @@ const Cart = ({ navigation }) => {
       console.log(error);
     }
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.cartHeader}>
@@ -156,11 +160,21 @@ const Cart = ({ navigation }) => {
           />
           <Button
             onPress={() => navigation.navigate("mainbottom")}
-            title="Continue Shopping"
+            title="Back To Home"
             color={"green"}
           />
         </View>
       )}
+
+      {!state?.currentuser ? (
+        <View style={{ marginTop: 25 }}>
+          <Button
+            onPress={() => navigation.navigate("login")}
+            title="Please Login To See Cart Details"
+            color={"grey"}
+          />
+        </View>
+      ) : null}
     </View>
   );
 };

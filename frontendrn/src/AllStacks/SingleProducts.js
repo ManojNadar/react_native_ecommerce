@@ -9,11 +9,12 @@ import {
   StatusBar,
   ScrollView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../ApiConfig/Api";
+import { MyContext } from "../Context/EcomContext";
 
 const width = Dimensions.get("window");
 const height = Dimensions.get("window");
@@ -22,8 +23,8 @@ const SingleProduct = ({ route, navigation }) => {
   const [singleProduct, setSingleProduct] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-
   const { id } = route.params;
+  const { state } = useContext(MyContext);
   // console.log(id, "Singleproduct id");
   // console.log(singleProduct);
   useEffect(() => {
@@ -91,23 +92,28 @@ const SingleProduct = ({ route, navigation }) => {
 
         <Text style={styles.description}>{singleProduct.description}</Text>
       </ScrollView>
-      <View style={styles.bottomSingleProduct}>
-        <Pressable style={styles.heart}>
-          <Icon name="heart" size={30} color="red" />
-        </Pressable>
-        <Pressable
-          onPress={() => addToCart(singleProduct.id)}
-          style={styles.addToCart}
-        >
-          <Text style={{ fontWeight: "bold", fontSize: 18 }}>Add To Cart</Text>
-        </Pressable>
-        <Pressable
-          style={styles.cart}
-          onPress={() => navigation.navigate("cart")}
-        >
-          <Icon name="shopping-cart" size={30} color="black" />
-        </Pressable>
-      </View>
+      {state?.currentuser ? (
+        <View style={styles.bottomSingleProduct}>
+          <Pressable style={styles.heart}>
+            <Icon name="heart" size={30} color="red" />
+          </Pressable>
+          <Pressable
+            onPress={() => addToCart(singleProduct.id)}
+            style={styles.addToCart}
+          >
+            <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+              Add To Cart
+            </Text>
+          </Pressable>
+
+          <Pressable
+            style={styles.cart}
+            onPress={() => navigation.navigate("cart")}
+          >
+            <Icon name="shopping-cart" size={30} color="black" />
+          </Pressable>
+        </View>
+      ) : null}
     </View>
   );
 };
