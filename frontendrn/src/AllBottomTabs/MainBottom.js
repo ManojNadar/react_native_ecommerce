@@ -2,10 +2,11 @@ import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "./Home";
 import Profile from "./Profile";
-import Contact from "./Contact";
+import Feedback from "./Feedback";
 import Menu from "./Menu";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Bars from "react-native-vector-icons/FontAwesome";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { MyContext } from "../Context/EcomContext";
 
 const Tab = createBottomTabNavigator();
@@ -18,6 +19,7 @@ const MainBottom = () => {
         headerShown: false,
         tabBarStyle: { height: 55 },
       }}
+      initialRouteName="mainbottom"
     >
       <Tab.Screen
         name="home"
@@ -40,8 +42,8 @@ const MainBottom = () => {
         }}
       />
       <Tab.Screen
-        name="contact"
-        component={Contact}
+        name="Feedback"
+        component={Feedback}
         options={{
           tabBarActiveTintColor: "skyblue",
           tabBarLabelStyle: {
@@ -49,8 +51,8 @@ const MainBottom = () => {
           },
           tabBarIcon: ({ size, focused }) => {
             return (
-              <Ionicons
-                name="call-sharp"
+              <MaterialIcons
+                name="feedback"
                 size={size}
                 color={focused ? "skyblue" : "black"}
               />

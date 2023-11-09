@@ -7,6 +7,7 @@ import MainBottom from "../AllBottomTabs/MainBottom";
 import EcomContext from "../Context/EcomContext";
 import SingleProduct from "./SingleProducts";
 import Cart from "./Cart";
+import FeedbackModal from "./FeedbackModal";
 
 const Stack = createNativeStackNavigator();
 
@@ -49,6 +50,14 @@ const MainStack = () => {
             component={MainBottom}
             options={{
               headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="FeedbackModal"
+            component={FeedbackModal}
+            options={{
+              headerShown: false,
+              presentation: "modal",
             }}
           />
         </Stack.Navigator>

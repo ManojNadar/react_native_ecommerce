@@ -4,12 +4,15 @@ import morgan from "morgan";
 // import cors from "cors";
 import dotenv from "dotenv";
 import {
+  addFeedBack,
   addtocart,
   currentuser,
   getCartProducts,
+  getFeedBack,
   login,
   register,
   removeItem,
+  updateProfile,
 } from "./Controllers/UserController.js";
 
 dotenv.config();
@@ -30,6 +33,9 @@ app.post("/currentuser", currentuser);
 app.post("/addtocart", addtocart);
 app.post("/getcartproducts", getCartProducts);
 app.post("/removeitem", removeItem);
+app.post("/updateprofile", updateProfile);
+app.post("/addfeedback", addFeedBack);
+app.get("/getfeedback", getFeedBack);
 
 mongoose
   .connect(process.env.MONGO_URL)

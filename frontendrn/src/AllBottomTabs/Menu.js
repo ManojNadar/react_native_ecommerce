@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Alert } from "react-native";
 import React, { useContext } from "react";
 import Bars from "react-native-vector-icons/FontAwesome";
 import Logout from "react-native-vector-icons/FontAwesome";
@@ -6,6 +6,15 @@ import { MyContext } from "../Context/EcomContext";
 
 const WishList = ({ navigation }) => {
   const { state, logout } = useContext(MyContext);
+
+  const logoutAlert = () =>
+    Alert.alert("Confirm Logout", "Are you sure", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+      },
+      { text: "OK", onPress: () => logout() },
+    ]);
 
   return (
     <View style={styles.container}>
@@ -43,7 +52,7 @@ const WishList = ({ navigation }) => {
 
       {state?.currentuser ? (
         <Pressable
-          onPress={logout}
+          onPress={logoutAlert}
           style={{
             flexDirection: "row",
             justifyContent: "center",

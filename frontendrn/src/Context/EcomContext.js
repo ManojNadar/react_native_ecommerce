@@ -47,7 +47,7 @@ const EcomContext = ({ children }) => {
         // console.log(token);
         const response = await api.post("/currentuser", { token });
         if (response.data.success) {
-          console.log(response?.data?.currentuser, "currentuser");
+          // console.log(response?.data?.currentuser, "currentuser");
           dispatch({
             type: "LOGIN",
             payload: response?.data?.currentuser,

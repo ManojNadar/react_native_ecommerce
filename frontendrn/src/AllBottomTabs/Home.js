@@ -219,7 +219,7 @@ const Home = ({ navigation }) => {
                       paddingTop: 8,
                     }}
                   >
-                    <Text>Rs. {item.price}</Text>
+                    <Text>$ {item.price}</Text>
                     <Text style={{ fontWeight: "bold" }}>
                       <Icon name="star" size={20} color="yellow" />
                       {item?.rating?.rate}

@@ -1,9 +1,60 @@
-import React, { useContext } from "react";
-import { StyleSheet, View, Text, Image, Button, Pressable } from "react-native";
+import React, { useContext, useState } from "react";
+import { StyleSheet, View, Text, Image, Button, TextInput } from "react-native";
 import { MyContext } from "../Context/EcomContext";
+import api from "../ApiConfig/Api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = () => {
-  const { state } = useContext(MyContext);
+  const { state, login } = useContext(MyContext);
+  const [profileModal, setProfileModal] = useState(false);
+  const [updateProf, setUpdateProf] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  // console.log(updateProf);
+
+  const handleUpdate = (value, name) => {
+    setUpdateProf((prevValue) => ({ ...prevValue, [name]: value }));
+  };
+
+  const closeUpdateModal = () => {
+    setProfileModal(false);
+    setUpdateProf({
+      name: "",
+      email: "",
+      password: "",
+    });
+  };
+
+  const submitUpdateProfile = async () => {
+    const { name, email, password } = updateProf;
+
+    if (name && email && password) {
+      try {
+        const token = await AsyncStorage.getItem("shoptoken");
+        const response = await api.post("/updateprofile", {
+          token,
+          updateProf,
+        });
+
+        if (response.data.success) {
+          const userData = response.data.updateUser;
+          login(userData, token);
+          alert("Profile Updated Success");
+          setProfileModal(false);
+
+          setUpdateProf({ name: "", email: "", password: "" });
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    } else {
+      alert("please fill all the fields to Update");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Image
@@ -29,7 +80,43 @@ const Profile = () => {
         </Text>
       </View>
 
-      <Button title="Edit Profile" style={styles.editButton} />
+      <Button
+        onPress={() => setProfileModal(true)}
+        title="Edit Profile"
+        style={styles.editButton}
+      />
+
+      {profileModal ? (
+        <View style={styles.profileModalStyle}>
+          <View>
+            <TextInput
+              placeholder="Update Name"
+              style={styles.profileUpdateInput}
+              value={updateProf.name}
+              onChangeText={(value) => handleUpdate(value, "name")}
+            />
+            <TextInput
+              placeholder="Update Email"
+              style={styles.profileUpdateInput}
+              value={updateProf.email}
+              onChangeText={(value) => handleUpdate(value, "email")}
+            />
+            <TextInput
+              placeholder="Update Password"
+              style={styles.profileUpdateInput}
+              onChangeText={(value) => handleUpdate(value, "password")}
+              value={updateProf.password}
+              secureTextEntry={true}
+            />
+            <View style={styles.profileUpdateBtn}>
+              <Button title="Update Profile" onPress={submitUpdateProfile} />
+            </View>
+            <View style={styles.profileUpdateBtn}>
+              <Button onPress={closeUpdateModal} title="Close" />
+            </View>
+          </View>
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -68,5 +155,29 @@ const styles = StyleSheet.create({
     color: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  profileModalStyle: {
+    backgroundColor: "skyblue",
+    width: "100%",
+    height: 320,
+    marginTop: 25,
+    position: "absolute",
+    top: 250,
+    left: 20,
+  },
+  profileUpdateInput: {
+    width: "90%",
+    borderBottomColor: "black",
+    borderBottomWidth: 0.5,
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: 15,
+    paddingVertical: 10,
+  },
+  profileUpdateBtn: {
+    marginTop: 18,
+    width: "90%",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 });

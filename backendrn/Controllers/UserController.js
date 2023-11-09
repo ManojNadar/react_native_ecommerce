@@ -1,6 +1,7 @@
 import User from "../Models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import Feedback from "../Models/Feedback.js";
 
 // Register
 
@@ -36,7 +37,6 @@ export const register = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Registered Success",
-      data: userDetail,
     });
   } catch (error) {
     return res.status(500).json({
@@ -236,5 +236,112 @@ export const removeItem = async (req, res) => {
     return res
       .status(500)
       .json({ success: false, message: "internal server error" });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, email, password } = req.body.updateProf;
+    const { token } = req.body;
+
+    // console.log(name, password, confirmPassword);
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, error: "token is required" });
+
+    const decodeToken = jwt.verify(token, process.env.SECRET_KEY);
+
+    if (!decodeToken) {
+      return res
+        .status(404)
+        .json({ success: false, message: "not a valid token" });
+    }
+
+    const userId = decodeToken?.userId;
+
+    const hashPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { name, email, password: hashPassword },
+      { new: true }
+    );
+
+    if (user) {
+      await user.save();
+      return res.status(200).json({
+        success: true,
+        message: "Profile updated Success",
+        updateUser: user,
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const addFeedBack = async (req, res) => {
+  try {
+    const { token, message } = req.body;
+
+    console.log(message, "backend message");
+    // console.log(token);
+
+    if (!token || !message)
+      return res
+        .status(404)
+        .json({ success: false, error: "token and message is required" });
+
+    const decodeToken = jwt.verify(token, process.env.SECRET_KEY);
+
+    if (!decodeToken) {
+      return res
+        .status(404)
+        .json({ success: false, message: "not a valid token" });
+    }
+
+    const userId = decodeToken?.userId;
+
+    // console.log(userId);
+
+    const user = await User.findById(userId);
+    // console.log(user);
+    if (user) {
+      const feed = new Feedback({
+        name: user.name,
+        message: message,
+        userId: user._id,
+      });
+      await feed.save();
+
+      const afterAddingfeed = await Feedback.find({});
+      console.log(afterAddingfeed);
+
+      return res.status(200).json({
+        success: true,
+        message: "Feed back Sent success",
+        feed: afterAddingfeed,
+      });
+    }
+
+    return res.status(404).json({ success: false, message: "user not found" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getFeedBack = async (req, res) => {
+  try {
+    const feed = await Feedback.find({});
+
+    if (feed) {
+      return res.status(200).json({ success: true, feed: feed });
+    }
+
+    return res.status(404).json({ success: false, message: "No feedBacks" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
