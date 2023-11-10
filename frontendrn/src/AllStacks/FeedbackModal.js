@@ -5,7 +5,7 @@ import api from "../ApiConfig/Api";
 const FeedbackModal = ({ navigation }) => {
   const [feedbacks, setFeedbacks] = useState([]);
 
-  console.log(feedbacks);
+  // console.log(feedbacks);
 
   useEffect(() => {
     async function getFeedbacks() {
@@ -32,6 +32,7 @@ const FeedbackModal = ({ navigation }) => {
             fontWeight: "bold",
             fontSize: 15,
             letterSpacing: 2,
+            backgroundColor: "skyblue",
           }}
         >
           FEEDBACKS
@@ -39,31 +40,32 @@ const FeedbackModal = ({ navigation }) => {
       ) : null}
       <View>
         {feedbacks?.length ? (
-          <View style={{ marginBottom: 20 }}>
+          <View style={{ marginVertical: 10 }}>
             <FlatList
               data={feedbacks}
               key={(key) => key._id}
               renderItem={({ item }) => (
                 <View
                   style={{
-                    backgroundColor: "skyblue",
-                    marginVertical: 2,
+                    marginVertical: 5,
                     paddingVertical: 5,
                     paddingHorizontal: 10,
                     borderRadius: 5,
+                    borderBottomWidth: 3,
+                    borderBottomColor: "skyblue",
+                    backgroundColor: "whitesmoke",
                   }}
                 >
                   <Text
                     style={{
                       fontWeight: "bold",
-                      fontSize: 20,
-                      color: "white",
+                      fontSize: 18,
                     }}
                   >
-                    {item.name}
+                    USER : {item.name.toUpperCase()}
                   </Text>
-                  <Text style={{ color: "white", paddingVertical: 5 }}>
-                    {item.message}
+                  <Text style={{ paddingVertical: 5 }}>
+                    COMMENTS : {item.message}
                   </Text>
                 </View>
               )}

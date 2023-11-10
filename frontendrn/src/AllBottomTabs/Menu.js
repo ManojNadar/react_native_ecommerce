@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Pressable, Alert } from "react-native";
 import React, { useContext } from "react";
 import Bars from "react-native-vector-icons/FontAwesome";
 import Logout from "react-native-vector-icons/FontAwesome";
+import Login from "react-native-vector-icons/Ionicons";
 import { MyContext } from "../Context/EcomContext";
 
 const WishList = ({ navigation }) => {
@@ -43,11 +44,19 @@ const WishList = ({ navigation }) => {
       </View>
 
       <View style={styles.menuContainer}>
-        <Text style={styles.allMenus}>My Account</Text>
-        <Text style={styles.allMenus}>Favourites</Text>
+        <Text style={styles.allMenus}>Account</Text>
+        <Text style={styles.allMenus}>WishList</Text>
         <Text style={styles.allMenus}>Settings</Text>
-        <Text style={styles.allMenus}>payment Methods</Text>
-        <Text style={styles.allMenus}>Your Orders</Text>
+        <Text style={styles.allMenus}>payment</Text>
+
+        {state?.currentuser ? (
+          <Text
+            onPress={() => navigation.navigate("Orders")}
+            style={styles.allMenus}
+          >
+            Your Orders
+          </Text>
+        ) : null}
       </View>
 
       {state?.currentuser ? (
@@ -62,12 +71,13 @@ const WishList = ({ navigation }) => {
             borderRadius: 20,
           }}
         >
-          <Logout name="power-off" size={30} />
+          <Logout name="power-off" size={30} color={"red"} />
           <Text
             style={{
               fontSize: 25,
               fontWeight: "bold",
               paddingLeft: 20,
+              color: "red",
             }}
           >
             Sign Out
@@ -85,12 +95,13 @@ const WishList = ({ navigation }) => {
             borderRadius: 20,
           }}
         >
-          <Logout name="power-off" size={30} />
+          <Login name="log-in" size={35} color={"green"} />
           <Text
             style={{
               fontSize: 25,
               fontWeight: "bold",
               paddingLeft: 20,
+              color: "green",
             }}
           >
             Log in

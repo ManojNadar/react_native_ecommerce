@@ -19,6 +19,9 @@ const userSchema = new Schema({
   cart: {
     type: [Object],
   },
+  orders: {
+    type: [Object],
+  },
 });
 
 export default mongoose.model("Users", userSchema);

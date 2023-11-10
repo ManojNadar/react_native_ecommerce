@@ -6,12 +6,16 @@ import dotenv from "dotenv";
 import {
   addFeedBack,
   addtocart,
+  checkOut,
   currentuser,
+  finalBuy,
   getCartProducts,
   getFeedBack,
+  getOrderProducts,
   login,
   register,
   removeItem,
+  removeOrderProducts,
   updateProfile,
 } from "./Controllers/UserController.js";
 
@@ -33,9 +37,13 @@ app.post("/currentuser", currentuser);
 app.post("/addtocart", addtocart);
 app.post("/getcartproducts", getCartProducts);
 app.post("/removeitem", removeItem);
+app.post("/checkout", checkOut);
 app.post("/updateprofile", updateProfile);
 app.post("/addfeedback", addFeedBack);
 app.get("/getfeedback", getFeedBack);
+app.post("/getorderproducts", getOrderProducts);
+app.post("/removeorders", removeOrderProducts);
+app.post("/finalbuy", finalBuy);
 
 mongoose
   .connect(process.env.MONGO_URL)

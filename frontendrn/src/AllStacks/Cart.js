@@ -74,6 +74,21 @@ const Cart = ({ navigation }) => {
     }
   };
 
+  const checkOut = async () => {
+    try {
+      const token = await AsyncStorage.getItem("shoptoken");
+
+      const response = await api.post("/checkout", { token });
+
+      if (response.data.success) {
+        setCart(response.data.cartProd);
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.cartHeader}>
@@ -125,7 +140,7 @@ const Cart = ({ navigation }) => {
                 Total $.{total}
               </Text>
               <View>
-                <Button title="Place Order" color={"orange"} />
+                <Button onPress={checkOut} title="Checkout" color={"orange"} />
               </View>
               <View style={styles.cartBtn}>
                 <Button

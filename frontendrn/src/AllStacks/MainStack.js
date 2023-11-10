@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Login from "./Login";
@@ -8,6 +8,7 @@ import EcomContext from "../Context/EcomContext";
 import SingleProduct from "./SingleProducts";
 import Cart from "./Cart";
 import FeedbackModal from "./FeedbackModal";
+import Orders from "./Orders";
 
 const Stack = createNativeStackNavigator();
 
@@ -55,6 +56,14 @@ const MainStack = () => {
           <Stack.Screen
             name="FeedbackModal"
             component={FeedbackModal}
+            options={{
+              headerShown: false,
+              presentation: "modal",
+            }}
+          />
+          <Stack.Screen
+            name="Orders"
+            component={Orders}
             options={{
               headerShown: false,
               presentation: "modal",

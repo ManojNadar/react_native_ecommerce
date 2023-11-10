@@ -28,7 +28,7 @@ const Home = ({ navigation }) => {
   const [filterModal, setFilterModal] = useState(false);
   const listRef = useRef();
 
-  console.log(allProducts);
+  // console.log(allProducts);
 
   useEffect(() => {
     setLoading(true);

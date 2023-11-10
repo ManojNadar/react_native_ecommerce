@@ -186,6 +186,14 @@ export const addtocart = async (req, res) => {
 export const getCartProducts = async (req, res) => {
   try {
     const { token } = req.body;
+
+    if (!token) {
+      return res
+        .status(404)
+        .json({ success: false, message: "token is required" });
+    }
+
+    console.log(token);
     const decodeToken = jwt.verify(token, process.env.SECRET_KEY);
     const userId = decodeToken?.userId;
 
@@ -277,6 +285,54 @@ export const updateProfile = async (req, res) => {
         updateUser: user,
       });
     }
+
+    return res.status(404).json({
+      success: false,
+      message: "user not found",
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const checkOut = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, error: "token is required" });
+
+    const decodeToken = jwt.verify(token, process.env.SECRET_KEY);
+
+    if (!decodeToken) {
+      return res
+        .status(404)
+        .json({ success: false, message: "not a valid token" });
+    }
+
+    const userId = decodeToken?.userId;
+
+    const user = await User.findById(userId);
+
+    if (user) {
+      user.orders = user.cart;
+      user.cart = [];
+      await user.save();
+
+      const afterCheckoutCart = await User.findById(userId);
+
+      return res.status(200).json({
+        success: true,
+        message: "Checkout Done",
+        cartProd: afterCheckoutCart.cart,
+      });
+    }
+    return res.status(404).json({
+      success: false,
+      message: "user not found",
+    });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
@@ -341,6 +397,108 @@ export const getFeedBack = async (req, res) => {
     }
 
     return res.status(404).json({ success: false, message: "No feedBacks" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getOrderProducts = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    const decodeToken = jwt.verify(token, process.env.SECRET_KEY);
+    const userId = decodeToken?.userId;
+
+    const user = await User.findById(userId);
+
+    if (user) {
+      console.log(user);
+      console.log(user.orders);
+      return res
+        .status(200)
+        .json({ success: true, orderProducts: user.orders });
+    }
+
+    throw new Error("User not Found");
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const removeOrderProducts = async (req, res) => {
+  try {
+    const { id, token } = req.body;
+    if (!token || !id) throw new Error("Token and productId is required");
+
+    const decodeToken = jwt.verify(token, process.env.SECRET_KEY);
+    const userId = decodeToken?.userId;
+
+    const user = await User.findById({ _id: userId });
+
+    const ourCartProduct = user.orders;
+
+    const filterCartProduct = ourCartProduct.filter((e) => e.id !== id);
+
+    user.orders = filterCartProduct;
+
+    await user.save();
+
+    const refreshOrders = await User.findById({ _id: userId });
+
+    if (refreshOrders) {
+      return res.status(200).json({
+        success: true,
+        refreshOrderProducts: refreshOrders.orders,
+        message: "product removed Success",
+      });
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: "internal server error" });
+  }
+};
+
+export const finalBuy = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, error: "token is required" });
+
+    const decodeToken = jwt.verify(token, process.env.SECRET_KEY);
+
+    if (!decodeToken) {
+      return res
+        .status(404)
+        .json({ success: false, message: "not a valid token" });
+    }
+
+    const userId = decodeToken?.userId;
+
+    const user = await User.findById(userId);
+
+    if (user) {
+      user.orders = [];
+      await user.save();
+
+      const afterCheckoutOrders = await User.findById(userId);
+
+      return res.status(200).json({
+        success: true,
+        message: "Checkout Done",
+        orderProducts: afterCheckoutOrders.orders,
+      });
+    }
+    return res.status(404).json({
+      success: false,
+      message: "user not found",
+    });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }

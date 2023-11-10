@@ -34,7 +34,7 @@ const Login = ({ navigation }) => {
           const userData = response.data.userData;
           const token = response.data.token;
 
-          console.log(userData, token, "from backend");
+          // console.log(userData, token, "from backend");
 
           login(userData, token);
           setUser({
