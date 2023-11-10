@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Dimensions,
   StatusBar,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
@@ -188,13 +189,14 @@ const Home = ({ navigation }) => {
       {/* Main Image Fetching Section */}
 
       {allProducts && (
-        <View>
+        <View style={{ marginBottom: 300 }}>
           <FlatList
             data={allProducts}
             keyExtractor={(key) => key.id}
             numColumns={2}
             initialScrollIndex={0}
             ref={listRef}
+            style={{ marginBottom: 25 }}
             renderItem={({ item }) => (
               <Pressable
                 style={styles.fetchedImg}
@@ -302,7 +304,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   fetchedImg: {
-    height: 320,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
