@@ -46,7 +46,7 @@ const FeedbackModal = ({ navigation }) => {
               renderItem={({ item }) => (
                 <View
                   style={{
-                    backgroundColor: "black",
+                    backgroundColor: "skyblue",
                     marginVertical: 2,
                     paddingVertical: 5,
                     paddingHorizontal: 10,
