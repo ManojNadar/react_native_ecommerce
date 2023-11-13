@@ -15,6 +15,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../ApiConfig/Api";
 import { MyContext } from "../Context/EcomContext";
+import Star from "react-native-vector-icons/FontAwesome";
 
 const width = Dimensions.get("window");
 const height = Dimensions.get("window");
@@ -83,13 +84,31 @@ const SingleProduct = ({ route, navigation }) => {
         </View>
       ) : null}
 
-      <ScrollView>
+      <ScrollView style={styles.mainImageContainer}>
         <Image
           resizeMode="contain"
           style={styles.singleProductImage}
           source={{ uri: singleProduct.image }}
         />
 
+        <View style={styles.singleProductDetailsContainer}>
+          <Text style={styles.singleProductDetails}>
+            ${singleProduct.price}
+          </Text>
+          {singleProduct?.rating?.rate > 3.5 ? (
+            <View style={styles.singleProductDetails}>
+              <Star name="star" size={20} color="green" />
+
+              <Text>{singleProduct?.rating?.rate}</Text>
+            </View>
+          ) : (
+            <View style={styles.singleProductDetails}>
+              <Star name="star" size={20} color="red" />
+
+              <Text>{singleProduct?.rating?.rate}</Text>
+            </View>
+          )}
+        </View>
         <Text style={styles.description}>{singleProduct.description}</Text>
       </ScrollView>
       {state?.currentuser ? (
@@ -110,7 +129,7 @@ const SingleProduct = ({ route, navigation }) => {
             style={styles.cart}
             onPress={() => navigation.navigate("cart")}
           >
-            <Icon name="shopping-cart" size={30} color="black" />
+            <Star name="shopping-cart" size={30} color="black" />
           </Pressable>
         </View>
       ) : null}
@@ -126,6 +145,9 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
   },
+  mainImageContainer: {
+    marginBottom: 80,
+  },
   title: {
     textAlign: "center",
     fontSize: 25,
@@ -138,6 +160,16 @@ const styles = StyleSheet.create({
   singleProductImage: {
     width: "100%",
     height: 450,
+  },
+
+  singleProductDetailsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  singleProductDetails: {
+    fontSize: 25,
+    fontWeight: "bold",
+    paddingTop: 25,
   },
   description: {
     marginTop: 15,

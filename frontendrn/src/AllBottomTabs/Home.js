@@ -10,13 +10,13 @@ import {
   StyleSheet,
   Dimensions,
   StatusBar,
-  ScrollView,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { MyContext } from "../Context/EcomContext";
 
 const width = Dimensions.get("window");
 const height = Dimensions.get("window");
@@ -28,6 +28,8 @@ const Home = ({ navigation }) => {
   const [error, setError] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
   const listRef = useRef();
+
+  const { state } = useContext(MyContext);
 
   // console.log(allProducts);
 
@@ -75,11 +77,19 @@ const Home = ({ navigation }) => {
           <Icon name="search" size={22} />
         </View>
 
-        <MaterialIcons
-          onPress={() => navigation.navigate("cart")}
-          name="shopping-cart"
-          size={30}
-        />
+        {state?.currentuser ? (
+          <MaterialIcons
+            onPress={() => navigation.navigate("cart")}
+            name="shopping-cart"
+            size={30}
+          />
+        ) : (
+          <MaterialIcons
+            onPress={() => navigation.navigate("login")}
+            name="login"
+            size={30}
+          />
+        )}
 
         <View style={styles.micIcon}>
           <Icon name="microphone" size={25} />
@@ -224,10 +234,17 @@ const Home = ({ navigation }) => {
                     }}
                   >
                     <Text>$ {item.price}</Text>
-                    <Text style={{ fontWeight: "bold" }}>
-                      <Icon name="star" size={20} color="yellow" />
-                      {item?.rating?.rate}
-                    </Text>
+                    {item?.rating?.rate > 3.5 ? (
+                      <Text>
+                        <Icon name="star" size={20} color="green" />
+                        <Text>{item?.rating?.rate}</Text>
+                      </Text>
+                    ) : (
+                      <Text>
+                        <Icon name="star" size={20} color="red" />
+                        <Text>{item?.rating?.rate}</Text>
+                      </Text>
+                    )}
                   </View>
                 </View>
               </Pressable>

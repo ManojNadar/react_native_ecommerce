@@ -22,7 +22,7 @@ const MainBottom = () => {
       initialRouteName="mainbottom"
     >
       <Tab.Screen
-        name="home"
+        name="Home"
         component={Home}
         options={{
           tabBarActiveTintColor: "skyblue",
@@ -63,7 +63,7 @@ const MainBottom = () => {
 
       {state?.currentuser && (
         <Tab.Screen
-          name="profile"
+          name="Profile"
           component={Profile}
           options={{
             tabBarActiveTintColor: "skyblue",
@@ -84,7 +84,7 @@ const MainBottom = () => {
       )}
 
       <Tab.Screen
-        name="menu"
+        name="Menu"
         component={Menu}
         options={{
           tabBarActiveTintColor: "skyblue",
