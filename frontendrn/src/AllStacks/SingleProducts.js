@@ -16,33 +16,35 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../ApiConfig/Api";
 import { MyContext } from "../Context/EcomContext";
 import Star from "react-native-vector-icons/FontAwesome";
+import Animated, { LightSpeedInLeft } from "react-native-reanimated";
 
 const width = Dimensions.get("window");
 const height = Dimensions.get("window");
 
 const SingleProduct = ({ route, navigation }) => {
-  const [singleProduct, setSingleProduct] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const { id } = route.params;
+  const { item } = route.params;
   const { state } = useContext(MyContext);
+
   // console.log(id, "Singleproduct id");
   // console.log(singleProduct);
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`https://fakestoreapi.com/products/${id}`)
-      .then((response) => {
-        setSingleProduct(response.data);
-        setLoading(false);
-        setError(false);
-      })
-      .catch(() => {
-        setLoading(false);
-        setError(true);
-        setSingleProduct({});
-      });
-  }, [id]);
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   axios
+  //     .get(`https://fakestoreapi.com/products/${id}`)
+  //     .then((response) => {
+  //       setSingleProduct(response.data);
+  //       setLoading(false);
+  //       setError(false);
+  //     })
+  //     .catch(() => {
+  //       setLoading(false);
+  //       setError(true);
+  //       setSingleProduct({});
+  //     });
+  // }, [id]);
 
   const addToCart = async (id) => {
     try {
@@ -50,7 +52,7 @@ const SingleProduct = ({ route, navigation }) => {
       const response = await api.post("/addtocart", {
         token,
         id,
-        singleProduct,
+        item,
       });
 
       if (response.data.success) {
@@ -67,7 +69,12 @@ const SingleProduct = ({ route, navigation }) => {
     <View style={styles.container}>
       <StatusBar color="white" />
 
-      <Text style={styles.title}>{singleProduct.title}</Text>
+      <Animated.Text
+        entering={LightSpeedInLeft.duration(500).delay(400)}
+        style={styles.title}
+      >
+        {item.title}
+      </Animated.Text>
       {loading ? (
         <View
           style={{
@@ -85,31 +92,34 @@ const SingleProduct = ({ route, navigation }) => {
       ) : null}
 
       <ScrollView style={styles.mainImageContainer}>
-        <Image
+        <Animated.Image
           resizeMode="contain"
           style={styles.singleProductImage}
-          source={{ uri: singleProduct.image }}
+          source={{ uri: item.image }}
         />
 
         <View style={styles.singleProductDetailsContainer}>
-          <Text style={styles.singleProductDetails}>
-            ${singleProduct.price}
-          </Text>
-          {singleProduct?.rating?.rate > 3.5 ? (
+          <Text style={styles.singleProductDetails}>${item.price}</Text>
+          {item?.rating?.rate > 3.5 ? (
             <View style={styles.singleProductDetails}>
               <Star name="star" size={20} color="green" />
 
-              <Text>{singleProduct?.rating?.rate}</Text>
+              <Text style={{ textAlign: "center" }}>{item?.rating?.rate}</Text>
             </View>
           ) : (
             <View style={styles.singleProductDetails}>
               <Star name="star" size={20} color="red" />
 
-              <Text>{singleProduct?.rating?.rate}</Text>
+              <Text style={{ textAlign: "center" }}>{item?.rating?.rate}</Text>
             </View>
           )}
         </View>
-        <Text style={styles.description}>{singleProduct.description}</Text>
+        <Animated.Text
+          entering={LightSpeedInLeft.duration(1000)}
+          style={styles.description}
+        >
+          {item.description}
+        </Animated.Text>
       </ScrollView>
       {state?.currentuser ? (
         <View style={styles.bottomSingleProduct}>
@@ -117,7 +127,7 @@ const SingleProduct = ({ route, navigation }) => {
             <Icon name="heart" size={30} color="red" />
           </Pressable>
           <Pressable
-            onPress={() => addToCart(singleProduct.id)}
+            onPress={() => addToCart(item.id)}
             style={styles.addToCart}
           >
             <Text style={{ fontWeight: "bold", fontSize: 18 }}>

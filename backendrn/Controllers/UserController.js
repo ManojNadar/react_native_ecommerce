@@ -145,7 +145,7 @@ export const currentuser = async (req, res) => {
 
 export const addtocart = async (req, res) => {
   try {
-    const { id, token, singleProduct } = req.body;
+    const { id, token, item } = req.body;
 
     // const { id } = singleProduct;
     // console.log(singleProduct);
@@ -165,7 +165,7 @@ export const addtocart = async (req, res) => {
       }
     }
 
-    user?.cart.push(singleProduct);
+    user?.cart.push(item);
     await user.save();
 
     return res.status(200).json({

@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  Button,
   FlatList,
   ActivityIndicator,
   TextInput,
@@ -210,11 +209,11 @@ const Home = ({ navigation }) => {
             renderItem={({ item }) => (
               <Pressable
                 style={styles.fetchedImg}
-                onPress={() => {
+                onPress={() =>
                   navigation.navigate("singleproduct", {
-                    id: item.id,
-                  });
-                }}
+                    item,
+                  })
+                }
               >
                 <Image
                   resizeMode="contain"
@@ -236,12 +235,12 @@ const Home = ({ navigation }) => {
                     <Text>$ {item.price}</Text>
                     {item?.rating?.rate > 3.5 ? (
                       <Text>
-                        <Icon name="star" size={20} color="green" />
+                        <Icon name="star" size={18} color="green" />
                         <Text>{item?.rating?.rate}</Text>
                       </Text>
                     ) : (
                       <Text>
-                        <Icon name="star" size={20} color="red" />
+                        <Icon name="star" size={18} color="red" />
                         <Text>{item?.rating?.rate}</Text>
                       </Text>
                     )}
@@ -308,8 +307,9 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "whitesmoke",
     position: "absolute",
-    top: 40,
-    zIndex: 10,
+    top: -175,
+    backgroundColor: "skyblue",
+    zIndex: 990,
   },
   filterText: {
     borderBottomColor: "grey",

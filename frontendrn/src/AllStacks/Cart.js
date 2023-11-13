@@ -7,6 +7,7 @@ import {
   Pressable,
   Image,
   Button,
+  ScrollView,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import api from "../ApiConfig/Api";
@@ -97,7 +98,7 @@ const Cart = ({ navigation }) => {
       </View>
 
       {cart.length ? (
-        <View>
+        <View style={{ marginBottom: 300 }}>
           <FlatList
             data={cart}
             keyExtractor={(key) => key.id}
@@ -105,7 +106,7 @@ const Cart = ({ navigation }) => {
               <Pressable
                 onPress={() => {
                   navigation.navigate("singleproduct", {
-                    id: item.id,
+                    item,
                   });
                 }}
                 style={styles.cartProd}

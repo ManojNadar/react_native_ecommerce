@@ -44,7 +44,12 @@ const WishList = ({ navigation }) => {
       </View>
 
       <View style={styles.menuContainer}>
-        <Text style={styles.allMenus}>Account</Text>
+        <Text
+          style={styles.allMenus}
+          onPress={() => navigation.navigate("Profile")}
+        >
+          Account
+        </Text>
         <Text style={styles.allMenus}>WishList</Text>
         <Text style={styles.allMenus}>Settings</Text>
         <Text style={styles.allMenus}>payment</Text>
@@ -68,7 +73,10 @@ const WishList = ({ navigation }) => {
             alignItems: "center",
             height: 50,
             marginTop: 25,
-            borderRadius: 20,
+            backgroundColor: "skyblue",
+            width: "50%",
+            marginLeft: "auto",
+            marginRight: "auto",
           }}
         >
           <Logout name="power-off" size={30} color={"red"} />
@@ -92,7 +100,10 @@ const WishList = ({ navigation }) => {
             alignItems: "center",
             height: 50,
             marginTop: 25,
-            borderRadius: 20,
+            backgroundColor: "skyblue",
+            width: "50%",
+            marginLeft: "auto",
+            marginRight: "auto",
           }}
         >
           <Login name="log-in" size={35} color={"green"} />
@@ -122,12 +133,13 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   allMenus: {
-    paddingVertical: 15,
+    paddingVertical: 20,
     borderBottomWidth: 0.2,
-    borderBottomColor: "whitesmoke",
+    borderBottomColor: "grey",
     fontWeight: "bold",
     fontSize: 25,
     textAlign: "center",
     letterSpacing: 0.5,
+    backgroundColor: "whitesmoke",
   },
 });
