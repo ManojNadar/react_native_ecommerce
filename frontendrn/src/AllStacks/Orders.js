@@ -16,7 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const width = Dimensions.get("window");
 const height = Dimensions.get("window");
 
-const Orders = () => {
+const Orders = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
   const [total, setTotal] = useState(0);
 
@@ -116,7 +116,7 @@ const Orders = () => {
               <Pressable
                 onPress={() => {
                   navigation.navigate("singleproduct", {
-                    id: item.id,
+                    item,
                   });
                 }}
                 style={{

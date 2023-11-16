@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
   View,
   Text,
   TextInput,
   Button,
-  FlatList,
-  ScrollView,
   Dimensions,
   Pressable,
 } from "react-native";
@@ -38,7 +36,7 @@ const Feedback = ({ navigation }) => {
         console.log(error.response.data.message);
       }
     } else {
-      alert("Empty FeedBack");
+      alert("Empty Feedback Not Allowed");
     }
   };
 
@@ -64,21 +62,25 @@ const Feedback = ({ navigation }) => {
         />
 
         {state?.currentuser ? (
-          <View style={{ marginTop: 35, width: "100%" }}>
-            <Button
-              onPress={submitFeedback}
-              title="Send"
-              style={styles.button}
-            />
-          </View>
+          <Pressable onPress={submitFeedback} style={styles.btn}>
+            <Text
+              style={{
+                color: "white",
+                fontSize: 18,
+                fontWeight: "bold",
+                letterSpacing: 1,
+              }}
+            >
+              Send
+            </Text>
+          </Pressable>
         ) : (
-          <View style={{ marginTop: 35 }}>
-            <Button
-              onPress={() => navigation.navigate("login")}
-              title="Login TO send FeedBack"
-              style={styles.button}
-            />
-          </View>
+          <Pressable
+            style={styles.btn}
+            onPress={() => navigation.navigate("login")}
+          >
+            <Text>Please Login To Send Feedback</Text>
+          </Pressable>
         )}
       </View>
 
@@ -110,7 +112,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 2,
     backgroundColor: "skyblue",
-    width: "100%",
     textAlign: "center",
     paddingVertical: 5,
   },
@@ -138,10 +139,14 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
     marginTop: 20,
   },
-  button: {
-    width: 150,
-    height: 40,
-    backgroundColor: "#007bff",
+  btn: {
+    width: 220,
+    height: 50,
+    marginTop: 25,
+    borderRadius: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
+    backgroundColor: "green",
     color: "#fff",
     alignItems: "center",
     justifyContent: "center",

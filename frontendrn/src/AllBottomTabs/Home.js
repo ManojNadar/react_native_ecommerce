@@ -30,6 +30,8 @@ const Home = ({ navigation }) => {
 
   const { state } = useContext(MyContext);
 
+  // console.log(state?.currentuser?.userCart?.length);
+
   // console.log(allProducts);
 
   useEffect(() => {
@@ -75,6 +77,12 @@ const Home = ({ navigation }) => {
         <View style={styles.searchIcon}>
           <Icon name="search" size={22} />
         </View>
+
+        {/* <Text>
+          {state?.currentuser ? (
+            <Text>{state?.currentuser?.userCart?.length}</Text>
+          ) : null}
+        </Text> */}
 
         {state?.currentuser ? (
           <MaterialIcons
@@ -134,7 +142,7 @@ const Home = ({ navigation }) => {
               }}
               style={styles.filterText}
             >
-              Sort By Name
+              A - Z Sort By Name
             </Text>
             <Text
               onPress={() => {
@@ -145,7 +153,7 @@ const Home = ({ navigation }) => {
               }}
               style={styles.filterText}
             >
-              High To Low
+              $ - High To Low
             </Text>
             <Text
               onPress={() => {
@@ -156,7 +164,7 @@ const Home = ({ navigation }) => {
               }}
               style={styles.filterText}
             >
-              Low to High
+              $ - Low to High
             </Text>
             <Text
               onPress={() => {
@@ -169,7 +177,7 @@ const Home = ({ navigation }) => {
               }}
               style={styles.filterText}
             >
-              Top Ratings
+              <Icon name="star" size={18} /> Top Ratings
             </Text>
           </View>
         ) : null}

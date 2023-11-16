@@ -4,6 +4,11 @@ import Bars from "react-native-vector-icons/FontAwesome";
 import Logout from "react-native-vector-icons/FontAwesome";
 import Login from "react-native-vector-icons/Ionicons";
 import { MyContext } from "../Context/EcomContext";
+import Animated, {
+  FadeInLeft,
+  FadeInRight,
+  LightSpeedInLeft,
+} from "react-native-reanimated";
 
 const WishList = ({ navigation }) => {
   const { state, logout } = useContext(MyContext);
@@ -44,23 +49,40 @@ const WishList = ({ navigation }) => {
       </View>
 
       <View style={styles.menuContainer}>
-        <Text
-          style={styles.allMenus}
-          onPress={() => navigation.navigate("Profile")}
-        >
-          Account
-        </Text>
-        <Text style={styles.allMenus}>WishList</Text>
-        <Text style={styles.allMenus}>Settings</Text>
-        <Text style={styles.allMenus}>payment</Text>
-
         {state?.currentuser ? (
-          <Text
-            onPress={() => navigation.navigate("Orders")}
-            style={styles.allMenus}
-          >
-            Your Orders
-          </Text>
+          <View>
+            <Text
+              style={styles.allMenus}
+              onPress={() => navigation.navigate("Profile")}
+            >
+              Account
+            </Text>
+            <Animated.Text
+              entering={FadeInLeft.duration(500)}
+              style={styles.allMenus}
+            >
+              WishList
+            </Animated.Text>
+            <Animated.Text
+              entering={FadeInRight.duration(600)}
+              style={styles.allMenus}
+            >
+              Settings
+            </Animated.Text>
+            <Animated.Text
+              entering={FadeInLeft.duration(700)}
+              style={styles.allMenus}
+            >
+              payment
+            </Animated.Text>
+            <Animated.Text
+              entering={FadeInRight.duration(800)}
+              onPress={() => navigation.navigate("Orders")}
+              style={styles.allMenus}
+            >
+              Your Orders
+            </Animated.Text>
+          </View>
         ) : null}
       </View>
 
@@ -80,7 +102,8 @@ const WishList = ({ navigation }) => {
           }}
         >
           <Logout name="power-off" size={30} color={"red"} />
-          <Text
+          <Animated.Text
+            entering={FadeInLeft.duration(900)}
             style={{
               fontSize: 25,
               fontWeight: "bold",
@@ -89,7 +112,7 @@ const WishList = ({ navigation }) => {
             }}
           >
             Sign Out
-          </Text>
+          </Animated.Text>
         </Pressable>
       ) : (
         <Pressable
@@ -107,7 +130,8 @@ const WishList = ({ navigation }) => {
           }}
         >
           <Login name="log-in" size={35} color={"green"} />
-          <Text
+          <Animated.Text
+            entering={LightSpeedInLeft.duration(900)}
             style={{
               fontSize: 25,
               fontWeight: "bold",
@@ -116,7 +140,7 @@ const WishList = ({ navigation }) => {
             }}
           >
             Log in
-          </Text>
+          </Animated.Text>
         </Pressable>
       )}
     </View>

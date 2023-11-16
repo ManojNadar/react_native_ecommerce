@@ -122,6 +122,7 @@ export const currentuser = async (req, res) => {
         name: user.name,
         email: user.email,
         userId: user._id,
+        userCart: user.cart,
       };
 
       // console.log(userObj);

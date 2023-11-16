@@ -9,8 +9,7 @@ import {
   StatusBar,
   ScrollView,
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
+import React, { useContext, useState, useEffect } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../ApiConfig/Api";
@@ -22,8 +21,8 @@ const width = Dimensions.get("window");
 const height = Dimensions.get("window");
 
 const SingleProduct = ({ route, navigation }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(false);
   const { item } = route.params;
   const { state } = useContext(MyContext);
 
@@ -75,7 +74,7 @@ const SingleProduct = ({ route, navigation }) => {
       >
         {item.title}
       </Animated.Text>
-      {loading ? (
+      {/* {loading ? (
         <View
           style={{
             alignItems: "center",
@@ -89,7 +88,7 @@ const SingleProduct = ({ route, navigation }) => {
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Text>Error on Fetching the product</Text>
         </View>
-      ) : null}
+      ) : null} */}
 
       <ScrollView style={styles.mainImageContainer}>
         <Animated.Image
@@ -142,7 +141,18 @@ const SingleProduct = ({ route, navigation }) => {
             <Star name="shopping-cart" size={30} color="black" />
           </Pressable>
         </View>
-      ) : null}
+      ) : (
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 22,
+            fontWeight: "bold",
+            color: "skyblue",
+          }}
+        >
+          SIGN IN TO PURCHASE
+        </Text>
+      )}
     </View>
   );
 };
