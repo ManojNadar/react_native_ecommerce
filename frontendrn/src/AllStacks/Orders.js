@@ -20,7 +20,7 @@ const Orders = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
   const [total, setTotal] = useState(0);
 
-  console.log(orders);
+  // console.log(orders);
 
   useEffect(() => {
     async function getOrderProducts() {
